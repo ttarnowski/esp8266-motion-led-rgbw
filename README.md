@@ -1,7 +1,7 @@
 # 100DaysOfCode in IoT Challenge
-## Day 29
+## Day 30
 
-Change color of Motion-Activated LED Strip Lights.
+Change color of Motion-Activated LED Strip Lights through the web interface.
 
 ## Requirements
 1. Visual Studio Code IDE:
@@ -42,9 +42,9 @@ Type `PlatformIO: Upload`
 
 Press Enter
 
-## Link to YouTube Video (Day29):
+## Link to YouTube Video (Day30):
 
-https://www.youtube.com/watch?v=S0FF1K0Y9u0
+https://www.youtube.com/watch?v=d1hdwap2gT8
 
 ## All Days List:
 

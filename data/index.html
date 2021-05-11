@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LED Control</title>
+    <script type="module">
+      import { h, Component, render, useState, htm, useEffect } from 'https://npm.reversehttp.com/preact,preact/hooks,htm';
+    
+      const html = htm.bind(h);
+
+      function Slider(props) {
+        return html`
+          <div>
+            <label>${props.name}:</label><br/>
+            <input type="range" min="1" max="255" value=${props.value} onChange=${(e) => props.setValue(parseInt(e.target.value))}/>
+          </div>`;
+      }
+
+      function LedControl() {
+        const [rgbw, setRGBW] = useState({r: 0, g: 0, b: 0, w: 0});
+
+        const fetchColor = async () => {
+          const res = await fetch("/color");
+          const data = await res.json();
+          setRGBW(data);
+        }
+
+        useEffect(() => {
+          fetchColor();
+        }, [])
+
+        const setColor = (val) => {
+          const newColor = {...rgbw, ...val};
+
+          fetch(
+            "/color", 
+            {
+              method: "put", 
+              headers: { "Content-Type": "application/json"}, 
+              body: JSON.stringify(newColor)
+            }
+          );
+
+          setRGBW(newColor);
+        }
+
+        return html`
+          <div class="slidecontainer">
+            <h2>Change color</h2>
+            <${Slider} name="Red" value=${rgbw.r} setValue=${(r) => setColor({r})} />
+            <${Slider} name="Green" value=${rgbw.g} setValue=${(g) => setColor({g})} />
+            <${Slider} name="Blue" value=${rgbw.b} setValue=${(b) => setColor({b})} />
+            <${Slider} name="White" value=${rgbw.w} setValue=${(w) => setColor({w})} />
+          </div>`;
+      }
+    
+      function App (props) {
+        return html`
+          <div style="display: flex; justify-content: center;">
+            <${LedControl} />
+          </div>
+        `;
+      }
+    
+      render(html`<${App} />`, document.body);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
